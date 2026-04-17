@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  shadow-engine:
+    build: .
+    container_name: shadow-engine
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=false
+      - LOG_LEVEL=INFO
+      - LLM_BASE_URL=http://ollama:11434
+      - LLM_MODEL=deepseek:8b
+      - DATABASE_URL=sqlite:///./shadow_engine.db
+    volumes:
+      - ./shadow_engine.db:/app/shadow_engine.db
+      - ./logs:/app/logs
+    depends_on:
+      - ollama
+    networks:
+      - shadow-network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - shadow-network
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+
+volumes:
+  ollama_data:
+
+networks:
+  shadow-network:
+    driver: bridge
