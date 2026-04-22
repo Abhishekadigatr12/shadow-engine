@@ -288,10 +288,10 @@ Error: database is locked
 Error: Address already in use
 ```
 **Solution:** Change port: `--port 8001`
-
-## License
-
-MIT License - See LICENSE file for details
+---
+**Author
+Abhishek Adiga TR
+---
 
 ## Support
 
